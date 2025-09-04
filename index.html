@@ -3,249 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اليوم الوطني السعودي 95 - تواصل الرياض</title>
+    <title>Media Plan - اليوم الوطني 95</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: #f7fafc;
+            background-color: #2e7d32; /* الأخضر الداكن من شعار اليوم الوطني */
+            color: #f7f7f7;
+            background-image: url('https://nd.gea.gov.sa/img/bg.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
         }
-        .text-green-800 {
-            color: #12372A; /* مستوحى من لون النخلة */
+
+        .gradient-overlay {
+            background-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(46, 125, 50, 0.8) 100%);
         }
-        .bg-green-600 {
-            background-color: #1A5319; /* مستوحى من لون النخيل الداكن */
-        }
-        .text-green-600 {
-            color: #1A5319;
-        }
-        .border-green-600 {
-            border-color: #1A5319;
-        }
-        .text-yellow-400 {
-            color: #FFC000; /* لون مستوحى من أشعة الشمس */
-        }
-        .text-neutral-500 {
-            color: #6B7280;
-        }
-        .rounded-3xl {
-            border-radius: 1.5rem;
-        }
-        .section-header {
-            position: relative;
-            padding-bottom: 0.5rem;
-            margin-bottom: 2rem;
-            font-weight: 700;
-            font-size: 2.25rem;
-            line-height: 2.5rem;
-        }
-        .section-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            height: 4px;
-            width: 80px;
-            background-color: #1A5319;
-            border-radius: 9999px;
-        }
+
+        .text-saudi-green { color: #1a4f21; } /* الأخضر الأغمق */
+        .bg-saudi-green { background-color: #1a4f21; }
+        .border-saudi-green { border-color: #1a4f21; }
+        
+        .text-saudi-gold { color: #d4ac00; } /* الذهبي */
+        .bg-saudi-gold { background-color: #d4ac00; }
+        .border-saudi-gold { border-color: #d4ac00; }
+
+        .text-saudi-white { color: #f7f7f7; }
+        .bg-saudi-white { background-color: #f7f7f7; }
+        .border-saudi-white { border-color: #f7f7f7; }
+
         .card {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .glow-effect {
-            box-shadow: 0 0 15px rgba(255, 192, 0, 0.5);
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-        .video-thumbnail {
-            width: 100%;
-            height: 200px;
-            background-color: #d1d5db;
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: #4b5563;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        .animated-card {
-            opacity: 0;
+        
+        /* Interactive Tabs */
+        .tab-button.active {
+            background-color: #1a4f21;
+            color: #d4ac00;
+            border-bottom: 3px solid #d4ac00;
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-
-    <!-- Header Section -->
-    <header class="relative bg-white py-12 px-6 overflow-hidden rounded-b-3xl shadow-lg">
-        <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('https://placehold.co/1920x1080/1A5319/FFFFFF?text=Saudi+National+Day+Pattern');"></div>
-        <div class="relative z-10 container mx-auto text-center">
-            <h1 class="text-5xl font-extrabold text-green-800 animate-fadeIn">تواصل الرياض</h1>
-            <h2 class="text-2xl mt-4 font-bold text-green-600 animate-fadeIn" style="animation-delay: 0.2s;">تحتفل باليوم الوطني السعودي 95</h2>
-            <p class="text-neutral-500 mt-2 text-lg max-w-2xl mx-auto animate-fadeIn" style="animation-delay: 0.4s;">
-                نقدم لكم خطتنا التسويقية احتفالاً بيومنا الوطني، لتعزيز الأمن والتقدم في المملكة.
-            </p>
+<body class="selection:bg-saudi-gold selection:text-saudi-green">
+    <!-- Header -->
+    <header class="relative overflow-hidden pt-16 pb-24 text-center">
+        <div class="absolute inset-0 gradient-overlay"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col items-center justify-center space-y-4">
+                <img src="https://nd.gea.gov.sa/img/logo.png" alt="شعار اليوم الوطني 95" class="w-24 sm:w-32 animate-bounce">
+                <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-saudi-white drop-shadow-lg">
+                    الخطة الإعلامية - اليوم الوطني 95
+                </h1>
+                <p class="text-xl sm:text-2xl text-saudi-white max-w-2xl mx-auto font-medium drop-shadow-md">
+                    ميديا بلان لحملة اليوم الوطني 95
+                </p>
+            </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-6 py-12">
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-16 space-y-24">
 
         <!-- Overview Section -->
-        <section class="mb-16 animated-card" data-animation-delay="0.6">
-            <h2 class="section-header text-green-800">نظرة عامة على الحملة</h2>
-            <p class="card text-lg leading-relaxed">
+        <section id="overview" class="card rounded-3xl p-8 sm:p-12">
+            <h2 class="text-3xl sm:text-4xl font-black text-saudi-gold mb-6 text-center">نظرة عامة على الحملة</h2>
+            <p class="text-lg sm:text-xl leading-relaxed text-saudi-white text-center">
                 تم إعداد هذه الخطة التسويقية لليوم الوطني السعودي 95 بهدف تعزيز حضور "تواصل الرياض" في السوق السعودي، وتحقيق أهداف محددة من الوعي بالعلامة التجارية وصولاً إلى زيادة المبيعات. الحملة ترتكز على إظهار مشاعر الفخر والاحتفاء بالوطن، وربط هذه المشاعر بخدمات الشركة التي تعزز الأمان والتقدم. سنستخدم قنوات متنوعة لضمان الوصول إلى الجمهور المستهدف بشكل فعال.
             </p>
         </section>
 
-        <!-- Objectives & Duration Section -->
-        <section class="grid md:grid-cols-2 gap-8 mb-16">
-            <div class="animated-card" data-animation-delay="0.8">
-                <h2 class="section-header text-green-800">الأهداف الرئيسية</h2>
-                <div class="card space-y-4">
-                    <div class="flex items-start">
-                        <svg class="h-6 w-6 text-green-600 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <p class="text-lg">
-                            <span class="font-bold">زيادة الوعي بالعلامة التجارية:</span> الوصول إلى أكبر عدد ممكن من الجمهور السعودي، وتذكيرهم بخدمات "تواصل الرياض".
-                        </p>
-                    </div>
-                    <div class="flex items-start">
-                        <svg class="h-6 w-6 text-green-600 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <p class="text-lg">
-                            <span class="font-bold">تحقيق المبيعات:</span> تحفيز العملاء المحتملين على الاشتراك في عروضنا الخاصة باليوم الوطني.
-                        </p>
-                    </div>
+        <!-- Goals & Budget Section -->
+        <section id="goals" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="card rounded-3xl p-8 space-y-6">
+                <h3 class="text-2xl sm:text-3xl font-bold text-saudi-gold text-center">الأهداف الرئيسية</h3>
+                <ul class="space-y-4 text-center">
+                    <li class="p-4 bg-saudi-green rounded-xl shadow-lg border border-saudi-gold">
+                        <span class="font-bold text-saudi-white text-lg">زيادة الوعي بالعلامة التجارية:</span>
+                        <p class="text-sm mt-1">الوصول إلى أكبر عدد ممكن من الجمهور السعودي، وتذكيرهم بخدمات "تواصل الرياض".</p>
+                    </li>
+                    <li class="p-4 bg-saudi-green rounded-xl shadow-lg border border-saudi-gold">
+                        <span class="font-bold text-saudi-white text-lg">تحقيق المبيعات:</span>
+                        <p class="text-sm mt-1">تحفيز العملاء المحتملين على الاشتراك في عروضنا الخاصة باليوم الوطني.</p>
+                    </li>
+                </ul>
+                <div class="text-center mt-6">
+                    <p class="font-bold text-lg text-saudi-white">المدة:</p>
+                    <p class="text-xl text-saudi-gold">15 يوم (قبل وأثناء اليوم الوطني)</p>
                 </div>
             </div>
-
-            <div class="animated-card" data-animation-delay="1.0">
-                <h2 class="section-header text-green-800">المدة والميزانية</h2>
-                <div class="card space-y-4">
-                    <p class="text-lg"><span class="font-bold">المدة:</span> 15 يوم (قبل وأثناء اليوم الوطني)</p>
-                    <div class="space-y-2">
-                        <div class="flex items-center text-lg">
-                            <span class="font-bold ml-2">الميزانية الإجمالية:</span>
-                            <span class="text-green-600 font-extrabold text-2xl">4200 ريال</span>
-                        </div>
-                        <p class="text-neutral-500">TikTok: 150 ريال/يوم - إجمالي: 2,100 ريال</p>
-                        <p class="text-neutral-500">Snapchat: 150 ريال/يوم - إجمالي: 2,100 ريال</p>
+            
+            <div class="card rounded-3xl p-8 space-y-6">
+                <h3 class="text-2xl sm:text-3xl font-bold text-saudi-gold text-center">الميزانية</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
+                    <div class="p-4 bg-saudi-green rounded-xl shadow-lg border border-saudi-gold">
+                        <h4 class="font-extrabold text-saudi-gold text-2xl mb-1">تيك توك</h4>
+                        <p class="text-sm">150 ريال/يوم</p>
+                        <p class="text-lg mt-2 font-bold text-saudi-white">إجمالي: 2,100 ريال</p>
+                        <p class="text-xs mt-1">عدد الأيام: 14 يوم</p>
                     </div>
+                    <div class="p-4 bg-saudi-green rounded-xl shadow-lg border border-saudi-gold">
+                        <h4 class="font-extrabold text-saudi-gold text-2xl mb-1">سناب شات</h4>
+                        <p class="text-sm">150 ريال/يوم</p>
+                        <p class="text-lg mt-2 font-bold text-saudi-white">إجمالي: 2,100 ريال</p>
+                        <p class="text-xs mt-1">عدد الأيام: 14 يوم</p>
+                    </div>
+                </div>
+                <div class="text-center mt-6">
+                    <p class="font-bold text-lg text-saudi-white">الميزانية كاملة:</p>
+                    <p class="text-4xl font-extrabold text-saudi-gold">4,200 ريال</p>
                 </div>
             </div>
         </section>
 
         <!-- Target Audience Section -->
-        <section class="mb-16 animated-card" data-animation-delay="1.2">
-            <h2 class="section-header text-green-800">الجمهور المستهدف</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="card">
-                    <h3 class="text-2xl font-bold text-green-600 mb-2">الشركات وأصحاب الأساطيل</h3>
-                    <p class="text-lg mb-2"><span class="font-semibold">الفئة:</span> أصحاب الشركات، مديري العمليات، ومسؤولي اللوجستيات.</p>
-                    <p class="text-lg"><span class="font-semibold">الاهتمامات:</span> الأمان، الكفاءة التشغيلية، توفير التكاليف، والتحكم بالمركبات.</p>
+        <section id="audience" class="card rounded-3xl p-8 sm:p-12 text-center">
+            <h2 class="text-3xl sm:text-4xl font-black text-saudi-gold mb-8">الجمهور المستهدف</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-right">
+                <div class="bg-saudi-green p-6 rounded-2xl shadow-lg">
+                    <div class="flex items-center space-x-2 space-x-reverse mb-4">
+                        <span class="text-4xl">🏢</span>
+                        <h3 class="text-xl sm:text-2xl font-bold text-saudi-gold">الشركات وأصحاب الأساطيل</h3>
+                    </div>
+                    <ul class="list-disc list-inside space-y-2 text-saudi-white text-lg">
+                        <li><span class="font-bold">الفئة:</span> أصحاب الشركات، مديري العمليات، ومسؤولي اللوجستيات.</li>
+                        <li><span class="font-bold">الاهتمامات:</span> الأمان، الكفاءة التشغيلية، توفير التكاليف، والتحكم بالمركبات.</li>
+                    </ul>
                 </div>
-                <div class="card">
-                    <h3 class="text-2xl font-bold text-green-600 mb-2">الأفراد</h3>
-                    <p class="text-lg mb-2"><span class="font-semibold">الفئة:</span> العائلات، الأفراد الذين يمتلكون سيارة خاصة، وأولياء الأمور.</p>
-                    <p class="text-lg"><span class="font-semibold">الاهتمامات:</span> أمان العائلة، حماية الممتلكات، ومراقبة السائقين.</p>
+                <div class="bg-saudi-green p-6 rounded-2xl shadow-lg">
+                    <div class="flex items-center space-x-2 space-x-reverse mb-4">
+                        <span class="text-4xl">👨‍👩‍👧‍👦</span>
+                        <h3 class="text-xl sm:text-2xl font-bold text-saudi-gold">الأفراد</h3>
+                    </div>
+                    <ul class="list-disc list-inside space-y-2 text-saudi-white text-lg">
+                        <li><span class="font-bold">الفئة:</span> العائلات، الأفراد الذين يمتلكون سيارة خاصة، وأولياء الأمور.</li>
+                        <li><span class="font-bold">الاهتمامات:</span> أمان العائلة، حماية الممتلكات، ومراقبة السائقين.</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Creative Section -->
-        <section class="mb-16 animated-card" data-animation-delay="1.4">
-            <h2 class="section-header text-green-800">المحتوى الإبداعي</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card col-span-2">
-                    <h3 class="text-2xl font-bold text-green-600 mb-4">الفيديوهات</h3>
-                    <div class="grid md:grid-cols-3 gap-6">
-                        <div class="video-thumbnail">فيديو 1</div>
-                        <div class="video-thumbnail">فيديو 2</div>
-                        <div class="video-thumbnail">فيديو 3</div>
-                    </div>
-                    <ul class="list-disc list-inside mt-4 space-y-2 text-lg">
-                        <li>الإعلان الرئيسي للحملة تهنئة باليوم الوطني والعروض المقدمة.</li>
-                        <li>عرض الكاش باك للعملاء الجدد.</li>
-                        <li>عرض العملاء الحاليين (شهرين مجاناً عند الاشتراك السنوي وستة أشهر عند التجديد لسنتين).</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <h3 class="text-2xl font-bold text-green-600 mb-4">Carousel و التصميمات</h3>
-                    <ul class="list-disc list-inside space-y-2 text-lg">
-                        <li>تهنئة اليوم الوطني والعروض في Carousel.</li>
-                        <li>تصميم التهنئة.</li>
-                        <li>تصميم عرض التجديد السنوي.</li>
-                        <li>تصميم عرض تجديد السنتين.</li>
-                        <li>تصميم عرض مجمع على شكل باقات.</li>
-                        <li>تصميمات لعرض الكاش باك (2 تصميم).</li>
-                    </ul>
-                </div>
+        <!-- Creative Section with Tabs -->
+        <section id="creative" class="card rounded-3xl p-8 sm:p-12">
+            <h2 class="text-3xl sm:text-4xl font-black text-saudi-gold mb-8 text-center">الكريتيف (المحتوى الإبداعي)</h2>
+            <div class="flex justify-center border-b border-saudi-green mb-8">
+                <button class="tab-button active flex-1 py-4 font-bold text-lg rounded-t-xl transition duration-300" onclick="showCreativeTab('videos')">
+                    فيديوهات 🎥
+                </button>
+                <button class="tab-button flex-1 py-4 font-bold text-lg rounded-t-xl transition duration-300" onclick="showCreativeTab('carousels')">
+                    Carousel 🖼️
+                </button>
+                <button class="tab-button flex-1 py-4 font-bold text-lg rounded-t-xl transition duration-300" onclick="showCreativeTab('designs')">
+                    تصميمات 🎨
+                </button>
+            </div>
+
+            <div id="videos-tab" class="tab-content space-y-6">
+                <p class="text-lg text-saudi-white">
+                    3 فيديوهات رئيسية تم إعدادها للحملة:
+                </p>
+                <ul class="list-disc list-inside space-y-4 text-saudi-white text-lg">
+                    <li>الاعلان الرئيسي للحملة تهنئة اليوم الوطني والعروض المقدمة من شركتنا للعملاء الجدد والحالين</li>
+                    <li>عرض الكاش باك للعملاء الجدد</li>
+                    <li>عرض العملاء الحالين (شهرين مجاناً عند الاشتراك السنوي وست اشهر مجاناً عند التجديد لسنتين)</li>
+                </ul>
+            </div>
+            
+            <div id="carousels-tab" class="tab-content hidden space-y-6">
+                <p class="text-lg text-saudi-white">
+                    محتوى Carousel يركز على:
+                </p>
+                <ul class="list-disc list-inside space-y-4 text-saudi-white text-lg">
+                    <li>تهنئة اليوم الوطني والعروض المقدمة من شركتنا للعملاء الجدد والحالين</li>
+                    <li>عرض الكاش باك للعملاء الجدد</li>
+                </ul>
+            </div>
+
+            <div id="designs-tab" class="tab-content hidden space-y-6">
+                <p class="text-lg text-saudi-white">
+                    تم إعداد مجموعة من التصميمات المميزة:
+                </p>
+                <ul class="list-disc list-inside space-y-4 text-saudi-white text-lg">
+                    <li>تصميم التهنئة</li>
+                    <li>تصميم العرض خاص بالعملاء الحالين للتجديد السنوي</li>
+                    <li>تصميم عرض خاص بالعملاء الحالين لتجديد السنتين</li>
+                    <li>تصميم عرض مجمع على شكل باقات تجديد</li>
+                    <li>2 تصميمات لعرض الكاش باك الخاص بالعملاء الجدد</li>
+                </ul>
             </div>
         </section>
 
         <!-- Execution Plan Section -->
-        <section class="mb-16 animated-card" data-animation-delay="1.6">
-            <h2 class="section-header text-green-800">خطة التشغيل</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="card">
-                    <h3 class="text-2xl font-bold text-green-600 mb-4">الأسبوع الأول (اليوم 1 – 7)</h3>
-                    <ul class="list-disc list-inside space-y-2 text-lg">
-                        <li><span class="font-bold">TikTok:</span> تشغيل الفيديوهات معًا والتصميم و Carousel.</li>
-                        <li><span class="font-bold">Snapchat:</span> تشغيل الفيديوهات + التصميم الثابت و Carousel.</li>
+        <section id="plan" class="card rounded-3xl p-8 sm:p-12">
+            <h2 class="text-3xl sm:text-4xl font-black text-saudi-gold mb-8 text-center">خطة التشغيل (Execution Plan)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-right">
+                <!-- Week 1 -->
+                <div class="bg-saudi-green p-6 rounded-2xl shadow-lg border border-saudi-gold">
+                    <h3 class="text-2xl font-bold text-saudi-gold mb-4 text-center">الأسبوع الأول (اليوم 1 - 7)</h3>
+                    <ul class="list-disc list-inside space-y-4 text-saudi-white text-lg">
+                        <li>
+                            <span class="font-bold">TikTok:</span>
+                            تشغيل الفيديوهات معًا و التصميم و Carousel
+                        </li>
+                        <li>
+                            <span class="font-bold">Snapchat:</span>
+                            تشغيل الفيديوهات + التصميم الثابت و Carousel
+                        </li>
                     </ul>
-                    <p class="mt-4 text-green-600 font-bold">الهدف: جمع أكبر عدد ممكن من العملاء المحتملين (Leads).</p>
+                    <div class="mt-4 p-4 rounded-xl bg-saudi-gold text-saudi-green text-center font-black">
+                        <p>✅ الهدف: جمع Leads أكبر عدد ممكن في بداية الحملة</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <h3 class="text-2xl font-bold text-green-600 mb-4">الأسبوع الثاني (اليوم 8 – 14)</h3>
-                    <ul class="list-disc list-inside space-y-2 text-lg">
-                        <li><span class="font-bold">TikTok:</span> تحسين الحملة والاستمرار في أفضل محتوى (كريتيف) وأقل تكلفة.</li>
-                        <li><span class="font-bold">Snapchat:</span> تحسين الحملة والاستمرار في أفضل محتوى (كريتيف) وأقل تكلفة.</li>
+
+                <!-- Week 2 -->
+                <div class="bg-saudi-green p-6 rounded-2xl shadow-lg border border-saudi-gold">
+                    <h3 class="text-2xl font-bold text-saudi-gold mb-4 text-center">الأسبوع الثاني (اليوم 8 - 14)</h3>
+                    <ul class="list-disc list-inside space-y-4 text-saudi-white text-lg">
+                        <li>
+                            <span class="font-bold">TikTok:</span>
+                            عمل تحسين للحملة هو الاستمرار فى افضل كريتف و اقل تكلفه ليد
+                        </li>
+                        <li>
+                            <span class="font-bold">Snapchat:</span>
+                            عمل تحسين للحملة هو الاستمرار فى افضل كريتف و اقل تكلفه ليد
+                        </li>
                     </ul>
+                    <div class="mt-4 p-4 rounded-xl bg-saudi-gold text-saudi-green text-center font-black">
+                        <p>✅ الهدف: الاستمرار في النتائج الأفضل بأقل التكاليف</p>
+                    </div>
                 </div>
             </div>
         </section>
-
     </main>
 
     <!-- Footer -->
-    <footer class="bg-green-600 text-white text-center py-6 mt-12 rounded-t-3xl shadow-inner">
-        <p>&copy; 2024 تواصل الرياض. كل الحقوق محفوظة.</p>
+    <footer class="bg-saudi-green text-center py-8">
+        <p class="text-saudi-white text-lg">
+            © 2024. كل الحقوق محفوظة.
+        </p>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const animatedCards = document.querySelectorAll('.animated-card');
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const delay = entry.target.dataset.animationDelay || '0s';
-                        entry.target.style.animation = `fadeIn 0.8s ${delay} ease-out forwards`;
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            animatedCards.forEach(card => {
-                observer.observe(card);
+        // JavaScript for interactive tabs
+        function showCreativeTab(tabId) {
+            const tabs = ['videos', 'carousels', 'designs'];
+            tabs.forEach(tab => {
+                const tabContent = document.getElementById(tab + '-tab');
+                const tabButton = document.querySelector(`.tab-button[onclick*="${tab}"]`);
+                if (tab === tabId) {
+                    tabContent.classList.remove('hidden');
+                    tabButton.classList.add('active');
+                } else {
+                    tabContent.classList.add('hidden');
+                    tabButton.classList.remove('active');
+                }
             });
-        });
+        }
     </script>
 </body>
 </html>
