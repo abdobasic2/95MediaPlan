@@ -3,258 +3,466 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Plan - اليوم الوطني 95</title>
+    <title>الخطة الإعلامية - اليوم الوطني 95</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
+        :root {
+            --saudi-green: #2e7d32;
+            --saudi-dark-green: #1a4f21;
+            --saudi-gold: #d4ac00;
+            --saudi-white: #f7f7f7;
+            --saudi-black: #0d1e11;
+        }
+
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: #2e7d32; /* الأخضر الداكن من شعار اليوم الوطني */
-            color: #f7f7f7;
-            background-image: url('https://nd.gea.gov.sa/img/bg.png');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
+            background-color: var(--saudi-dark-green);
+            color: var(--saudi-white);
+            overflow-x: hidden;
+            direction: rtl;
         }
 
-        .gradient-overlay {
-            background-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(46, 125, 50, 0.8) 100%);
+        .scroll-container {
+            position: relative;
+            z-index: 2;
         }
 
-        .text-saudi-green { color: #1a4f21; } /* الأخضر الأغمق */
-        .bg-saudi-green { background-color: #1a4f21; }
-        .border-saudi-green { border-color: #1a4f21; }
+        /* 3D Scene Container */
+        #scene-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Hero Section */
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-text {
+            animation: fadeInScale 2s ease-in-out forwards;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--saudi-white);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-text p {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            color: var(--saudi-gold);
+            text-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        }
         
-        .text-saudi-gold { color: #d4ac00; } /* الذهبي */
-        .bg-saudi-gold { background-color: #d4ac00; }
-        .border-saudi-gold { border-color: #d4ac00; }
+        .cta-button {
+            padding: 1rem 3rem;
+            font-size: 1.25rem;
+            font-weight: bold;
+            border-radius: 999px;
+            background-color: var(--saudi-gold);
+            color: var(--saudi-dark-green);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 15px rgba(212, 172, 0, 0.4);
+        }
 
-        .text-saudi-white { color: #f7f7f7; }
-        .bg-saudi-white { background-color: #f7f7f7; }
-        .border-saudi-white { border-color: #f7f7f7; }
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(212, 172, 0, 0.6);
+        }
+
+        /* General Section Styling */
+        .content-section {
+            padding: 8rem 2rem;
+            background: linear-gradient(to bottom, transparent, var(--saudi-dark-green) 50%, transparent);
+            position: relative;
+        }
+
+        .content-section h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--saudi-gold);
+            text-align: center;
+            margin-bottom: 4rem;
+        }
 
         .card {
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-1rem) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5);
         }
-        
-        /* Interactive Tabs */
-        .tab-button.active {
-            background-color: #1a4f21;
-            color: #d4ac00;
-            border-bottom: 3px solid #d4ac00;
+
+        /* Animated Elements */
+        .animated-heading, .animated-text {
+            opacity: 0;
+            transform: translateY(2rem);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .animated-heading.show, .animated-text.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Specific styles for each section */
+        #creative .tab-button.active {
+            background-color: var(--saudi-gold);
+            color: var(--saudi-dark-green);
+            border-bottom: 3px solid var(--saudi-dark-green);
+        }
+
+        .list-item-animated {
+            opacity: 0;
+            transform: translateX(-2rem);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .list-item-animated.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Keyframes */
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Responsive design for mobile */
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero-text p { font-size: 1.2rem; }
+            .content-section h2 { font-size: 2.5rem; }
+            .card { padding: 1.5rem; }
         }
     </style>
 </head>
-<body class="selection:bg-saudi-gold selection:text-saudi-green">
-    <!-- Header -->
-    <header class="relative overflow-hidden pt-16 pb-24 text-center">
-        <div class="absolute inset-0 gradient-overlay"></div>
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="flex flex-col items-center justify-center space-y-4">
-                <img src="https://nd.gea.gov.sa/img/logo.png" alt="شعار اليوم الوطني 95" class="w-24 sm:w-32 animate-bounce">
-                <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-saudi-white drop-shadow-lg">
-                    الخطة الإعلامية - اليوم الوطني 95
-                </h1>
-                <p class="text-xl sm:text-2xl text-saudi-white max-w-2xl mx-auto font-medium drop-shadow-md">
-                    ميديا بلان لحملة اليوم الوطني 95
-                </p>
-            </div>
-        </div>
-    </header>
+<body>
+    <!-- 3D Background with THREE.js -->
+    <div id="scene-container"></div>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-16 space-y-24">
+    <div class="scroll-container">
+        <!-- Hero Section -->
+        <section id="hero" class="relative">
+            <div class="absolute inset-0 z-0">
+                <img src="https://nd.gea.gov.sa/img/bg.png" alt="خلفية اليوم الوطني" class="w-full h-full object-cover opacity-30">
+            </div>
+            <div class="relative z-10 flex flex-col items-center justify-center h-full text-center">
+                <img src="https://nd.gea.gov.sa/img/logo.png" alt="شعار اليوم الوطني 95" class="w-32 md:w-48 mb-6 animate-pulse">
+                <div class="hero-text">
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-saudi-white">
+                        خطة اليوم الوطني 95
+                    </h1>
+                    <p class="text-lg md:text-xl lg:text-2xl mt-4 font-medium text-saudi-gold">
+                        "حملة "تواصل الرياض" الإعلانية
+                    </p>
+                </div>
+                <a href="#overview" class="cta-button mt-12 md:mt-16">
+                    استكشف الخطة
+                </a>
+            </div>
+        </section>
 
         <!-- Overview Section -->
-        <section id="overview" class="card rounded-3xl p-8 sm:p-12">
-            <h2 class="text-3xl sm:text-4xl font-black text-saudi-gold mb-6 text-center">نظرة عامة على الحملة</h2>
-            <p class="text-lg sm:text-xl leading-relaxed text-saudi-white text-center">
-                تم إعداد هذه الخطة التسويقية لليوم الوطني السعودي 95 بهدف تعزيز حضور "تواصل الرياض" في السوق السعودي، وتحقيق أهداف محددة من الوعي بالعلامة التجارية وصولاً إلى زيادة المبيعات. الحملة ترتكز على إظهار مشاعر الفخر والاحتفاء بالوطن، وربط هذه المشاعر بخدمات الشركة التي تعزز الأمان والتقدم. سنستخدم قنوات متنوعة لضمان الوصول إلى الجمهور المستهدف بشكل فعال.
-            </p>
+        <section id="overview" class="content-section">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="animated-heading">نظرة عامة على الحملة</h2>
+                <div class="card p-8 md:p-12">
+                    <p class="text-lg md:text-xl leading-relaxed animated-text">
+                        تم إعداد هذه الخطة التسويقية لليوم الوطني السعودي 95 بهدف تعزيز حضور "تواصل الرياض" في السوق السعودي، وتحقيق أهداف محددة من الوعي بالعلامة التجارية وصولاً إلى زيادة المبيعات. الحملة ترتكز على إظهار مشاعر الفخر والاحتفاء بالوطن، وربط هذه المشاعر بخدمات الشركة التي تعزز الأمان والتقدم. سنستخدم قنوات متنوعة لضمان الوصول إلى الجمهور المستهدف بشكل فعال.
+                    </p>
+                </div>
+            </div>
         </section>
 
         <!-- Goals & Budget Section -->
-        <section id="goals" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="card rounded-3xl p-8 space-y-6">
-                <h3 class="text-2xl sm:text-3xl font-bold text-saudi-gold text-center">الأهداف الرئيسية</h3>
-                <ul class="space-y-4 text-center">
-                    <li class="p-4 bg-saudi-green rounded-xl shadow-lg border border-saudi-gold">
-                        <span class="font-bold text-saudi-white text-lg">زيادة الوعي بالعلامة التجارية:</span>
-                        <p class="text-sm mt-1">الوصول إلى أكبر عدد ممكن من الجمهور السعودي، وتذكيرهم بخدمات "تواصل الرياض".</p>
-                    </li>
-                    <li class="p-4 bg-saudi-green rounded-xl shadow-lg border border-saudi-gold">
-                        <span class="font-bold text-saudi-white text-lg">تحقيق المبيعات:</span>
-                        <p class="text-sm mt-1">تحفيز العملاء المحتملين على الاشتراك في عروضنا الخاصة باليوم الوطني.</p>
-                    </li>
-                </ul>
-                <div class="text-center mt-6">
-                    <p class="font-bold text-lg text-saudi-white">المدة:</p>
-                    <p class="text-xl text-saudi-gold">15 يوم (قبل وأثناء اليوم الوطني)</p>
-                </div>
-            </div>
-            
-            <div class="card rounded-3xl p-8 space-y-6">
-                <h3 class="text-2xl sm:text-3xl font-bold text-saudi-gold text-center">الميزانية</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
-                    <div class="p-4 bg-saudi-green rounded-xl shadow-lg border border-saudi-gold">
-                        <h4 class="font-extrabold text-saudi-gold text-2xl mb-1">تيك توك</h4>
-                        <p class="text-sm">150 ريال/يوم</p>
-                        <p class="text-lg mt-2 font-bold text-saudi-white">إجمالي: 2,100 ريال</p>
-                        <p class="text-xs mt-1">عدد الأيام: 14 يوم</p>
+        <section id="goals" class="content-section">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="animated-heading">الأهداف والميزانية</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card">
+                        <h3 class="text-3xl font-bold text-saudi-gold mb-6 text-center">الأهداف الرئيسية</h3>
+                        <ul class="space-y-6">
+                            <li class="p-6 rounded-xl bg-saudi-dark-green border-2 border-saudi-gold shadow-lg list-item-animated">
+                                <span class="font-extrabold text-saudi-white text-2xl">زيادة الوعي بالعلامة التجارية:</span>
+                                <p class="text-sm mt-2 text-gray-300">الوصول إلى أكبر عدد ممكن من الجمهور السعودي، وتذكيرهم بخدمات "تواصل الرياض".</p>
+                            </li>
+                            <li class="p-6 rounded-xl bg-saudi-dark-green border-2 border-saudi-gold shadow-lg list-item-animated" style="transition-delay: 0.2s;">
+                                <span class="font-extrabold text-saudi-white text-2xl">تحقيق المبيعات:</span>
+                                <p class="text-sm mt-2 text-gray-300">تحفيز العملاء المحتملين على الاشتراك في عروضنا الخاصة باليوم الوطني.</p>
+                            </li>
+                        </ul>
+                        <div class="text-center mt-8">
+                            <p class="font-bold text-xl text-saudi-white">المدة: <span class="text-3xl font-black text-saudi-gold">15 يوم</span></p>
+                            <p class="text-lg text-saudi-white">(قبل وأثناء اليوم الوطني)</p>
+                        </div>
                     </div>
-                    <div class="p-4 bg-saudi-green rounded-xl shadow-lg border border-saudi-gold">
-                        <h4 class="font-extrabold text-saudi-gold text-2xl mb-1">سناب شات</h4>
-                        <p class="text-sm">150 ريال/يوم</p>
-                        <p class="text-lg mt-2 font-bold text-saudi-white">إجمالي: 2,100 ريال</p>
-                        <p class="text-xs mt-1">عدد الأيام: 14 يوم</p>
+                    
+                    <div class="card">
+                        <h3 class="text-3xl font-bold text-saudi-gold mb-6 text-center">الميزانية</h3>
+                        <div class="space-y-6">
+                            <div class="p-6 rounded-xl bg-saudi-dark-green border-2 border-saudi-gold shadow-lg flex items-center justify-between list-item-animated" style="transition-delay: 0.4s;">
+                                <div>
+                                    <h4 class="font-extrabold text-saudi-gold text-3xl">تيك توك</h4>
+                                    <p class="text-sm mt-1 text-gray-300">150 ريال/يوم</p>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-2xl font-bold text-saudi-white">2,100 ريال</p>
+                                    <p class="text-xs text-gray-400">عدد الأيام: 14 يوم</p>
+                                </div>
+                            </div>
+                            <div class="p-6 rounded-xl bg-saudi-dark-green border-2 border-saudi-gold shadow-lg flex items-center justify-between list-item-animated" style="transition-delay: 0.6s;">
+                                <div>
+                                    <h4 class="font-extrabold text-saudi-gold text-3xl">سناب شات</h4>
+                                    <p class="text-sm mt-1 text-gray-300">150 ريال/يوم</p>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-2xl font-bold text-saudi-white">2,100 ريال</p>
+                                    <p class="text-xs text-gray-400">عدد الأيام: 14 يوم</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-8">
+                            <p class="font-bold text-xl text-saudi-white">الميزانية الإجمالية:</p>
+                            <p class="text-5xl font-extrabold text-saudi-gold animate-pulse">4,200 ريال</p>
+                        </div>
                     </div>
-                </div>
-                <div class="text-center mt-6">
-                    <p class="font-bold text-lg text-saudi-white">الميزانية كاملة:</p>
-                    <p class="text-4xl font-extrabold text-saudi-gold">4,200 ريال</p>
                 </div>
             </div>
         </section>
 
-        <!-- Target Audience Section -->
-        <section id="audience" class="card rounded-3xl p-8 sm:p-12 text-center">
-            <h2 class="text-3xl sm:text-4xl font-black text-saudi-gold mb-8">الجمهور المستهدف</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-right">
-                <div class="bg-saudi-green p-6 rounded-2xl shadow-lg">
-                    <div class="flex items-center space-x-2 space-x-reverse mb-4">
-                        <span class="text-4xl">🏢</span>
-                        <h3 class="text-xl sm:text-2xl font-bold text-saudi-gold">الشركات وأصحاب الأساطيل</h3>
+        <!-- Audience Section -->
+        <section id="audience" class="content-section">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="animated-heading">الجمهور المستهدف</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card list-item-animated">
+                        <div class="flex items-center space-x-4 space-x-reverse mb-6">
+                            <span class="text-5xl drop-shadow-lg">🏢</span>
+                            <h3 class="text-2xl font-bold text-saudi-gold">الشركات وأصحاب الأساطيل</h3>
+                        </div>
+                        <ul class="space-y-4 text-lg">
+                            <li><span class="font-bold text-saudi-white">الفئة:</span> أصحاب الشركات، مديري العمليات، ومسؤولي اللوجستيات.</li>
+                            <li><span class="font-bold text-saudi-white">الاهتمامات:</span> الأمان، الكفاءة التشغيلية، توفير التكاليف، والتحكم بالمركبات.</li>
+                        </ul>
                     </div>
-                    <ul class="list-disc list-inside space-y-2 text-saudi-white text-lg">
-                        <li><span class="font-bold">الفئة:</span> أصحاب الشركات، مديري العمليات، ومسؤولي اللوجستيات.</li>
-                        <li><span class="font-bold">الاهتمامات:</span> الأمان، الكفاءة التشغيلية، توفير التكاليف، والتحكم بالمركبات.</li>
-                    </ul>
-                </div>
-                <div class="bg-saudi-green p-6 rounded-2xl shadow-lg">
-                    <div class="flex items-center space-x-2 space-x-reverse mb-4">
-                        <span class="text-4xl">👨‍👩‍👧‍👦</span>
-                        <h3 class="text-xl sm:text-2xl font-bold text-saudi-gold">الأفراد</h3>
+                    <div class="card list-item-animated" style="transition-delay: 0.2s;">
+                        <div class="flex items-center space-x-4 space-x-reverse mb-6">
+                            <span class="text-5xl drop-shadow-lg">👨‍👩‍👧‍👦</span>
+                            <h3 class="text-2xl font-bold text-saudi-gold">الأفراد</h3>
+                        </div>
+                        <ul class="space-y-4 text-lg">
+                            <li><span class="font-bold text-saudi-white">الفئة:</span> العائلات، الأفراد الذين يمتلكون سيارة خاصة، وأولياء الأمور.</li>
+                            <li><span class="font-bold text-saudi-white">الاهتمامات:</span> أمان العائلة، حماية الممتلكات، ومراقبة السائقين.</li>
+                        </ul>
                     </div>
-                    <ul class="list-disc list-inside space-y-2 text-saudi-white text-lg">
-                        <li><span class="font-bold">الفئة:</span> العائلات، الأفراد الذين يمتلكون سيارة خاصة، وأولياء الأمور.</li>
-                        <li><span class="font-bold">الاهتمامات:</span> أمان العائلة، حماية الممتلكات، ومراقبة السائقين.</li>
-                    </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Creative Section with Tabs -->
-        <section id="creative" class="card rounded-3xl p-8 sm:p-12">
-            <h2 class="text-3xl sm:text-4xl font-black text-saudi-gold mb-8 text-center">الكريتيف (المحتوى الإبداعي)</h2>
-            <div class="flex justify-center border-b border-saudi-green mb-8">
-                <button class="tab-button active flex-1 py-4 font-bold text-lg rounded-t-xl transition duration-300" onclick="showCreativeTab('videos')">
-                    فيديوهات 🎥
-                </button>
-                <button class="tab-button flex-1 py-4 font-bold text-lg rounded-t-xl transition duration-300" onclick="showCreativeTab('carousels')">
-                    Carousel 🖼️
-                </button>
-                <button class="tab-button flex-1 py-4 font-bold text-lg rounded-t-xl transition duration-300" onclick="showCreativeTab('designs')">
-                    تصميمات 🎨
-                </button>
-            </div>
+        <!-- Creative Section -->
+        <section id="creative" class="content-section">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="animated-heading">المحتوى الإبداعي</h2>
+                <div class="card">
+                    <div class="flex justify-center border-b-2 border-saudi-gold mb-8">
+                        <button class="tab-button active flex-1 py-4 font-bold text-lg rounded-t-xl transition duration-300 bg-saudi-gold text-saudi-dark-green" onclick="showCreativeTab('videos')">
+                            🎥 الفيديوهات
+                        </button>
+                        <button class="tab-button flex-1 py-4 font-bold text-lg rounded-t-xl transition duration-300" onclick="showCreativeTab('carousels')">
+                            🖼️ Carousel
+                        </button>
+                        <button class="tab-button flex-1 py-4 font-bold text-lg rounded-t-xl transition duration-300" onclick="showCreativeTab('designs')">
+                            🎨 التصميمات
+                        </button>
+                    </div>
 
-            <div id="videos-tab" class="tab-content space-y-6">
-                <p class="text-lg text-saudi-white">
-                    3 فيديوهات رئيسية تم إعدادها للحملة:
-                </p>
-                <ul class="list-disc list-inside space-y-4 text-saudi-white text-lg">
-                    <li>الاعلان الرئيسي للحملة تهنئة اليوم الوطني والعروض المقدمة من شركتنا للعملاء الجدد والحالين</li>
-                    <li>عرض الكاش باك للعملاء الجدد</li>
-                    <li>عرض العملاء الحالين (شهرين مجاناً عند الاشتراك السنوي وست اشهر مجاناً عند التجديد لسنتين)</li>
-                </ul>
-            </div>
-            
-            <div id="carousels-tab" class="tab-content hidden space-y-6">
-                <p class="text-lg text-saudi-white">
-                    محتوى Carousel يركز على:
-                </p>
-                <ul class="list-disc list-inside space-y-4 text-saudi-white text-lg">
-                    <li>تهنئة اليوم الوطني والعروض المقدمة من شركتنا للعملاء الجدد والحالين</li>
-                    <li>عرض الكاش باك للعملاء الجدد</li>
-                </ul>
-            </div>
+                    <div id="videos-tab" class="tab-content space-y-6 list-item-animated">
+                        <p class="text-lg md:text-xl font-bold text-saudi-gold">3 فيديوهات رئيسية:</p>
+                        <ul class="list-disc list-inside space-y-3 text-saudi-white">
+                            <li>الاعلان الرئيسي للحملة تهنئة اليوم الوطني والعروض المقدمة من شركتنا للعملاء الجدد والحالين</li>
+                            <li>عرض الكاش باك للعملاء الجدد</li>
+                            <li>عرض العملاء الحالين (شهرين مجاناً عند الاشتراك السنوي وست اشهر مجاناً عند التجديد لسنتين)</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="carousels-tab" class="tab-content hidden space-y-6 list-item-animated">
+                        <p class="text-lg md:text-xl font-bold text-saudi-gold">محتوى Carousel يركز على:</p>
+                        <ul class="list-disc list-inside space-y-3 text-saudi-white">
+                            <li>تهنئة اليوم الوطني والعروض المقدمة من شركتنا للعملاء الجدد والحالين</li>
+                            <li>عرض الكاش باك للعملاء الجدد</li>
+                        </ul>
+                    </div>
 
-            <div id="designs-tab" class="tab-content hidden space-y-6">
-                <p class="text-lg text-saudi-white">
-                    تم إعداد مجموعة من التصميمات المميزة:
-                </p>
-                <ul class="list-disc list-inside space-y-4 text-saudi-white text-lg">
-                    <li>تصميم التهنئة</li>
-                    <li>تصميم العرض خاص بالعملاء الحالين للتجديد السنوي</li>
-                    <li>تصميم عرض خاص بالعملاء الحالين لتجديد السنتين</li>
-                    <li>تصميم عرض مجمع على شكل باقات تجديد</li>
-                    <li>2 تصميمات لعرض الكاش باك الخاص بالعملاء الجدد</li>
-                </ul>
+                    <div id="designs-tab" class="tab-content hidden space-y-6 list-item-animated">
+                        <p class="text-lg md:text-xl font-bold text-saudi-gold">مجموعة من التصميمات المميزة:</p>
+                        <ul class="list-disc list-inside space-y-3 text-saudi-white">
+                            <li>تصميم التهنئة</li>
+                            <li>تصميم العرض خاص بالعملاء الحالين للتجديد السنوي</li>
+                            <li>تصميم عرض خاص بالعملاء الحالين لتجديد السنتين</li>
+                            <li>تصميم عرض مجمع على شكل باقات تجديد</li>
+                            <li>2 تصميمات لعرض الكاش باك الخاص بالعملاء الجدد</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Execution Plan Section -->
-        <section id="plan" class="card rounded-3xl p-8 sm:p-12">
-            <h2 class="text-3xl sm:text-4xl font-black text-saudi-gold mb-8 text-center">خطة التشغيل (Execution Plan)</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-right">
-                <!-- Week 1 -->
-                <div class="bg-saudi-green p-6 rounded-2xl shadow-lg border border-saudi-gold">
-                    <h3 class="text-2xl font-bold text-saudi-gold mb-4 text-center">الأسبوع الأول (اليوم 1 - 7)</h3>
-                    <ul class="list-disc list-inside space-y-4 text-saudi-white text-lg">
-                        <li>
-                            <span class="font-bold">TikTok:</span>
-                            تشغيل الفيديوهات معًا و التصميم و Carousel
-                        </li>
-                        <li>
-                            <span class="font-bold">Snapchat:</span>
-                            تشغيل الفيديوهات + التصميم الثابت و Carousel
-                        </li>
-                    </ul>
-                    <div class="mt-4 p-4 rounded-xl bg-saudi-gold text-saudi-green text-center font-black">
-                        <p>✅ الهدف: جمع Leads أكبر عدد ممكن في بداية الحملة</p>
+        <section id="plan" class="content-section">
+            <div class="container mx-auto max-w-6xl">
+                <h2 class="animated-heading">خطة التشغيل</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card list-item-animated">
+                        <h3 class="text-3xl font-bold text-saudi-gold mb-6 text-center">الأسبوع الأول (اليوم 1 - 7)</h3>
+                        <ul class="space-y-4 text-lg">
+                            <li><span class="font-bold text-saudi-white">TikTok:</span> تشغيل الفيديوهات معًا و التصميم و Carousel</li>
+                            <li><span class="font-bold text-saudi-white">Snapchat:</span> تشغيل الفيديوهات + التصميم الثابت و Carousel</li>
+                        </ul>
+                        <div class="mt-8 p-4 rounded-xl bg-saudi-gold text-saudi-dark-green text-center font-black text-xl shadow-lg">
+                            <p>✅ الهدف: جمع Leads أكبر عدد ممكن في بداية الحملة</p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Week 2 -->
-                <div class="bg-saudi-green p-6 rounded-2xl shadow-lg border border-saudi-gold">
-                    <h3 class="text-2xl font-bold text-saudi-gold mb-4 text-center">الأسبوع الثاني (اليوم 8 - 14)</h3>
-                    <ul class="list-disc list-inside space-y-4 text-saudi-white text-lg">
-                        <li>
-                            <span class="font-bold">TikTok:</span>
-                            عمل تحسين للحملة هو الاستمرار فى افضل كريتف و اقل تكلفه ليد
-                        </li>
-                        <li>
-                            <span class="font-bold">Snapchat:</span>
-                            عمل تحسين للحملة هو الاستمرار فى افضل كريتف و اقل تكلفه ليد
-                        </li>
-                    </ul>
-                    <div class="mt-4 p-4 rounded-xl bg-saudi-gold text-saudi-green text-center font-black">
-                        <p>✅ الهدف: الاستمرار في النتائج الأفضل بأقل التكاليف</p>
+                    <div class="card list-item-animated" style="transition-delay: 0.2s;">
+                        <h3 class="text-3xl font-bold text-saudi-gold mb-6 text-center">الأسبوع الثاني (اليوم 8 - 14)</h3>
+                        <ul class="space-y-4 text-lg">
+                            <li><span class="font-bold text-saudi-white">TikTok:</span> عمل تحسين للحملة هو الاستمرار فى افضل كريتف و اقل تكلفه ليد</li>
+                            <li><span class="font-bold text-saudi-white">Snapchat:</span> عمل تحسين للحملة هو الاستمرار فى افضل كريتف و اقل تكلفه ليد</li>
+                        </ul>
+                        <div class="mt-8 p-4 rounded-xl bg-saudi-gold text-saudi-dark-green text-center font-black text-xl shadow-lg">
+                            <p>✅ الهدف: الاستمرار في النتائج الأفضل بأقل التكاليف</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-    </main>
 
-    <!-- Footer -->
-    <footer class="bg-saudi-green text-center py-8">
-        <p class="text-saudi-white text-lg">
-            © 2024. كل الحقوق محفوظة.
-        </p>
-    </footer>
-
+        <!-- Footer -->
+        <footer class="bg-saudi-black py-12 text-center">
+            <p class="text-saudi-white text-xl font-bold">
+                مزيد من الفخر والتقدم.
+            </p>
+            <p class="text-saudi-gold text-sm mt-2">
+                © 2024. كل الحقوق محفوظة.
+            </p>
+        </footer>
+    </div>
+    
     <script>
-        // JavaScript for interactive tabs
-        function showCreativeTab(tabId) {
+        // THREE.js 3D Background Setup
+        let scene, camera, renderer, particles;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        const init = () => {
+            // Scene setup
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('scene-container').appendChild(renderer.domElement);
+            camera.position.z = 5;
+
+            // Create particles with Saudi theme
+            const particleCount = 1000;
+            const geometry = new THREE.BufferGeometry();
+            const positions = [];
+            const colors = [];
+            const color1 = new THREE.Color(0xd4ac00); // Gold
+            const color2 = new THREE.Color(0x2e7d32); // Green
+            const color3 = new THREE.Color(0xf7f7f7); // White
+
+            for (let i = 0; i < particleCount; i++) {
+                positions.push(
+                    (Math.random() - 0.5) * 20,
+                    (Math.random() - 0.5) * 20,
+                    (Math.random() - 0.5) * 20
+                );
+                
+                const randomColor = Math.random();
+                if (randomColor < 0.5) {
+                    colors.push(color1.r, color1.g, color1.b);
+                } else if (randomColor < 0.8) {
+                    colors.push(color2.r, color2.g, color2.b);
+                } else {
+                    colors.push(color3.r, color3.g, color3.b);
+                }
+            }
+            
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            
+            const material = new THREE.PointsMaterial({
+                size: 0.05,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            // Add event listeners for mouse movement
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            window.addEventListener('resize', onWindowResize, false);
+        };
+
+        const onDocumentMouseMove = (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        };
+
+        const onWindowResize = () => {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        };
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+
+            // Camera movement based on mouse
+            camera.position.x += (mouseX * 0.001 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.001 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            // Particles rotation for subtle animation
+            particles.rotation.x += 0.0005;
+            particles.rotation.y += 0.001;
+
+            renderer.render(scene, camera);
+        };
+        
+        // Tab functionality for Creative section
+        const showCreativeTab = (tabId) => {
             const tabs = ['videos', 'carousels', 'designs'];
             tabs.forEach(tab => {
                 const tabContent = document.getElementById(tab + '-tab');
@@ -262,12 +470,37 @@
                 if (tab === tabId) {
                     tabContent.classList.remove('hidden');
                     tabButton.classList.add('active');
+                    tabButton.classList.add('bg-saudi-gold', 'text-saudi-dark-green');
+                    tabButton.classList.remove('bg-transparent', 'text-saudi-gold');
                 } else {
                     tabContent.classList.add('hidden');
                     tabButton.classList.remove('active');
+                    tabButton.classList.remove('bg-saudi-gold', 'text-saudi-dark-green');
+                    tabButton.classList.add('bg-transparent', 'text-saudi-gold');
                 }
             });
-        }
+        };
+
+        // Scroll animation for headings and text
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                } else {
+                    entry.target.classList.remove('show');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.animated-heading, .animated-text').forEach(el => observer.observe(el));
+        document.querySelectorAll('.list-item-animated').forEach(el => observer.observe(el));
+
+        // Initialize on window load
+        window.onload = function() {
+            init();
+            animate();
+        };
+
     </script>
 </body>
 </html>
